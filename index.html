@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Matemáticas</title>
+</head>
+<body style="text-align:center; font-family:Arial;"><h1>🎮 Juego de Matemáticas</h1>
+<p id="pregunta"></p><input type="number" id="respuesta" placeholder="Tu respuesta">
+<br><br>
+<button onclick="verificar()">Responder</button><p id="resultado"></p>
+<p id="puntaje"></p><script>
+let puntaje = 0;
+let ronda = 0;
+let rondas = 5;
+
+let num1, num2, op, respuesta_correcta;
+
+function generarPregunta() {
+    let operaciones = ["+", "-", "*", "/"];
+    op = operaciones[Math.floor(Math.random() * operaciones.length)];
+
+    num1 = Math.floor(Math.random() * 10) + 1;
+    num2 = Math.floor(Math.random() * 10) + 1;
+
+    if (op === "/") {
+        num1 = num1 * num2;
+    }
+
+    switch(op) {
+        case "+": respuesta_correcta = num1 + num2; break;
+        case "-": respuesta_correcta = num1 - num2; break;
+        case "*": respuesta_correcta = num1 * num2; break;
+        case "/": respuesta_correcta = num1 / num2; break;
+    }
+
+    document.getElementById("pregunta").innerText =
+        `Pregunta ${ronda + 1}: ${num1} ${op} ${num2} = ?`;
+}
+
+function verificar() {
+    let respuesta = parseFloat(document.getElementById("respuesta").value);
+
+    if (respuesta === respuesta_correcta) {
+        document.getElementById("resultado").innerText = "✅ Correcto!";
+        puntaje++;
+    } else {
+        document.getElementById("resultado").innerText =
+            `❌ Incorrecto. Era ${respuesta_correcta}`;
+    }
+
+    ronda++;
+    document.getElementById("puntaje").innerText =
+        `Puntaje: ${puntaje}/${rondas}`;
+
+    document.getElementById("respuesta").value = "";
+
+    if (ronda < rondas) {
+        generarPregunta();
+    } else {
+        document.getElementById("pregunta").innerText = "🏁 Juego terminado";
+    }
+}
+
+generarPregunta();
+</script></body>
+</html>
